@@ -764,6 +764,7 @@ MonoBehaviour:
   destroyX: -30
   ratPrefab: {fileID: 7097261224541157528, guid: fa1a26a5b791ce942a2d3ceada86eda8, type: 3}
   snakePrefab: {fileID: 5865678042077666994, guid: 7c22057efe1364c438dc5eabf56c345a, type: 3}
+  nezumiPrefab: {fileID: 2421916539679926808, guid: 49ad235a523d54a49802892078026297, type: 3}
   rockPrefab: {fileID: 9118294916552514611, guid: c39029eaac2b4e144ab3aa6608a6df1f, type: 3}
   enemySpawnChance: 0.89
   baseSpeed: 2

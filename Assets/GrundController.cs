@@ -41,7 +41,9 @@ public class GrundController : MonoBehaviour
     [Header("敵プレハブ（3種類）")]
     [SerializeField] private GameObject ratPrefab;　//ネズミのプレハブ
     [SerializeField] private GameObject snakePrefab; //蛇のプレハブ
+    [SerializeField] private GameObject nezumiPrefab; //敵ネズミのプレハブ
     [SerializeField] private GameObject rockPrefab;　// 岩のプレハブ
+    
 
     [Header("敵の出現確率（0〜1）")]
     [SerializeField] private float enemySpawnChance = 0.4f;　//敵の出現頻度
@@ -133,18 +135,33 @@ public class GrundController : MonoBehaviour
         //敵の出現関係
         if (Random.value < enemySpawnChance)
         {
-            int enemyType = Random.Range(0, 3); // 0=ネズミ, 1=蛇, 2=岩
+            int enemyType = Random.Range(0, 4); // 0=ネズミ, 1=蛇, 2=敵ネズミ, 3=岩
             Vector2 enemyPos = new Vector2(centerX, newY + 0.5f); // 足場の上に出す
 
-            if (enemyType == 2) // 岩（足場の子にする）
+            if (enemyType == 3) // 岩（足場の子にする）
             {
                 GameObject enemy = Instantiate(rockPrefab, enemyPos, Quaternion.identity);
                 enemy.transform.parent = platform.transform; // ★ 足場にくっつける！
             }
             else // ネズミ or 蛇（自分で移動させる）
             {
-                GameObject enemyPrefab = (enemyType == 0) ? ratPrefab : snakePrefab;
-                Instantiate(enemyPrefab, enemyPos, Quaternion.identity); // 子にしない！
+                // ネズミ・蛇・敵ネズミ（自分で動く）
+                GameObject enemyPrefab;
+
+                if (enemyType == 0)
+                {
+                    enemyPrefab = ratPrefab; // 通常ネズミ
+                }
+                else if (enemyType == 1)
+                {
+                    enemyPrefab = snakePrefab; // 蛇
+                }
+                else
+                {
+                    enemyPrefab = nezumiPrefab; // 敵ネズミ
+                }
+
+                Instantiate(enemyPrefab, enemyPos, Quaternion.identity); // 足場の子にはしない
             }
         }
 
@@ -166,11 +183,26 @@ public class GrundController : MonoBehaviour
         }
         if (Random.value < enemySpawnChance)
         {
-            int enemyType = Random.Range(0, 2); // 0: ネズミ, 1: 蛇
+            int enemyType = Random.Range(0, 3); // 0: ネズミ, 1: 蛇
             Vector2 enemyPos = new Vector2(centerX + stackedOffset.x, newY + stackedOffset.y + 0.5f);
 
-            GameObject enemyPrefab = (enemyType == 0) ? ratPrefab : snakePrefab;
-            Instantiate(enemyPrefab, enemyPos, Quaternion.identity);
+            // ネズミ・蛇・敵ネズミ（自分で動く）
+            GameObject enemyPrefab;
+
+            if (enemyType == 0)
+            {
+                enemyPrefab = ratPrefab; // 通常ネズミ
+            }
+            else if (enemyType == 1)
+            {
+                enemyPrefab = snakePrefab; // 蛇
+            }
+            else
+            {
+                enemyPrefab = nezumiPrefab; // 敵ネズミ
+            }
+
+            Instantiate(enemyPrefab, enemyPos, Quaternion.identity); // 足場の子にはしない
         }
     }
 
